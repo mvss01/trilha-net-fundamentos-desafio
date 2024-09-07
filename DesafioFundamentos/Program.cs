@@ -1,59 +1,66 @@
-﻿using DesafioFundamentos.Models;
+﻿using DesafioEstacionamento.Models;
+using DesafioEstacionamento.Services;
 
-// Coloca o encoding para UTF8 para exibir acentuação
-Console.OutputEncoding = System.Text.Encoding.UTF8;
-
-decimal precoInicial = 0;
-decimal precoPorHora = 0;
-
-Console.WriteLine("Seja bem vindo ao sistema de estacionamento!\n" +
-                  "Digite o preço inicial:");
-precoInicial = Convert.ToDecimal(Console.ReadLine());
-
-Console.WriteLine("Agora digite o preço por hora:");
-precoPorHora = Convert.ToDecimal(Console.ReadLine());
-
-// Instancia a classe Estacionamento, já com os valores obtidos anteriormente
-Estacionamento es = new Estacionamento(precoInicial, precoPorHora);
-
-string opcao = string.Empty;
-bool exibirMenu = true;
-
-// Realiza o loop do menu
-while (exibirMenu)
+class Program
 {
-    Console.Clear();
-    Console.WriteLine("Digite a sua opção:");
-    Console.WriteLine("1 - Cadastrar veículo");
-    Console.WriteLine("2 - Remover veículo");
-    Console.WriteLine("3 - Listar veículos");
-    Console.WriteLine("4 - Encerrar");
+    private static Estacionameto estacionamento = new(0, 0);
+    private static bool executanto;
 
-    switch (Console.ReadLine())
+    static void Main()
     {
-        case "1":
-            es.AdicionarVeiculo();
-            break;
 
-        case "2":
-            es.RemoverVeiculo();
-            break;
+        estacionamento = IniciarEstacionamento();
+        Console.Clear();
 
-        case "3":
-            es.ListarVeiculos();
-            break;
+        int funcao;
+        do
+        {
+            funcao = ExibirMenu();
+            Executar(funcao);
 
-        case "4":
-            exibirMenu = false;
-            break;
+        }while(executanto);
 
-        default:
-            Console.WriteLine("Opção inválida");
-            break;
     }
 
-    Console.WriteLine("Pressione uma tecla para continuar");
-    Console.ReadLine();
-}
+    static Estacionameto IniciarEstacionamento()
+    {
+        executanto = true;
+        decimal precoInicial = LerNumeros.Ler("--------------\nEstacionamento\n--------------\nDigite o preço inicial: ");
+        decimal precoHora = LerNumeros.Ler("Digite o preço por hora: ");
+        return new Estacionameto(precoInicial, precoHora);
+    }
+    static int ExibirMenu()
+    {
+        Console.Clear();
 
-Console.WriteLine("O programa se encerrou");
+        int funcao = LerNumeros.Ler("Selecione uma funcionalidade:\nCadastrar Veículo[1]\nRemover Veículo[2]\nLista de Veículos[3]\nFechar estacionamento[0]");
+
+        if (funcao < 0 || funcao > 3){
+            do
+            {
+                funcao = LerNumeros.Ler("Opção inválida. Tente novamente: ");
+            }while(funcao < 0 || funcao > 3);
+        }
+
+        return funcao;
+    }
+
+    static void Executar(int funcao)
+    {
+        switch(funcao)
+        {
+            case 0:
+                executanto = estacionamento.FecharCaixa();
+                break;
+            case 1:
+                estacionamento.Estacionar();
+                break;
+            case 2:
+                estacionamento.LiberarVaga();
+                break;
+            case 3:
+                estacionamento.VeiculosEstacionados();
+                break;
+        }
+    }
+}
