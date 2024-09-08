@@ -1,5 +1,5 @@
-﻿using DesafioEstacionamento.Models;
-using DesafioEstacionamento.Services;
+﻿using DesafioFundamentos.Models;
+using DesafioFundamentos.Services;
 
 class Program
 {

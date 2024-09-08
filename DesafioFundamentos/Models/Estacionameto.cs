@@ -1,6 +1,6 @@
-using DesafioEstacionamento.Services;
+using DesafioFundamentos.Services;
 
-namespace DesafioEstacionamento.Models
+namespace DesafioFundamentos.Models
 {
     public class Estacionameto(decimal precoInicial, decimal precoHora)
     {
@@ -46,7 +46,7 @@ namespace DesafioEstacionamento.Models
             if(veiculo != null){
                 int horas = LerNumeros.Ler("Digite quantas horas o veículo ficou estacionado: ");
                 decimal preco = CalcularPreco(horas);
-                Console.WriteLine("Pagamento realizado? (Pressione Enter para confirmar)");
+                Console.WriteLine($"Total a pagar: R${preco} \nPagamento realizado? (Pressione Enter para confirmar)");
                 Console.ReadKey();
                 faturamento += preco;
                 veiculos.Remove(veiculo);

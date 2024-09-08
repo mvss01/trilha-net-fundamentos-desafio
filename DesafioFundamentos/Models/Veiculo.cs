@@ -1,4 +1,4 @@
-namespace DesafioEstacionamento.Models
+namespace DesafioFundamentos.Models
 {
     public class Veiculo(string placa)
     {
